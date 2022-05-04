@@ -13,7 +13,7 @@
     <!-- Theme CSS Link -->
     <link rel="stylesheet" href="{% static 'comingsoon/dist/css/main.css' %}">
 
-    <title>BD Weather Coming Soon Responsive HTML Template</title>
+    <title>Streetmarket Coming Soon</title>
 </head>
 
 <body>
@@ -23,20 +23,7 @@
             <nav>
                 <div class="logo">
                     <a href="index.html">                       
-                        <svg xmlns="http://www.w3.org/2000/svg" width="224.771" height="43.502" viewBox="0 0 224.771 43.502">
-                            <g id="Group_15" data-name="Group 15" transform="translate(-153.231 -131.248)">
-                             <text id="BD.Weather" transform="translate(209.002 163)" fill="#001141" font-size="28" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="0" y="0">BD.Weather</tspan></text>
-                            <g id="Icon_feather-cloud-drizzle" data-name="Icon feather-cloud-drizzle" transform="translate(153.509 131.5)">
-                            <path id="Path_1" data-name="Path 1" d="M12,28.5v3.636" transform="translate(2.229 5.727)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            <path id="Path_2" data-name="Path 2" d="M12,19.5v3.636" transform="translate(2.229 3.818)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            <path id="Path_3" data-name="Path 3" d="M24,28.5v3.636" transform="translate(4.775 5.727)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            <path id="Path_4" data-name="Path 4" d="M24,19.5v3.636" transform="translate(4.775 3.818)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            <path id="Path_5" data-name="Path 5" d="M18,31.5v3.636" transform="translate(3.502 6.364)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            <path id="Path_6" data-name="Path 6" d="M18,22.5v3.636" transform="translate(3.502 4.455)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            <path id="Path_7" data-name="Path 7" d="M36.048,29.827a9.091,9.091,0,0,0-3.636-17.418H30.12a14.546,14.546,0,1,0-23.164,15" transform="translate(0 0)" fill="none" stroke="#ff3251" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-                            </g>
-                            </g>
-                        </svg>
+                       <img src="{% static 'img/streetmarket-logo.jpg' %}">
                     </a>
                 </div>
                 <div class="social-icon">
@@ -75,15 +62,37 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
+                        {% if sent_mail %}
+                        <h5 class="has-line">Awesome! You Got Mail.</h5>
+                        <h1>Please verify your email.</h1>
+                        {% elif success_page %}
+                         <h5 class="has-line">Yay! You're in.</h5>
+                        <h1>You will Get Notified when we launch</h1>
+                        {% else %}
                         <h5 class="has-line">Coming Soon</h5>
                         <h1>Get Notified when we launch.</h1>
-                        <form action="/coming_soon/">
+                         {% for field in form.fields %}
+                             {% for error in field.errors %}
+                             <div class="alert alert-danger col-lg-4" role="alert">
+                        }
+    {{ error }}
+</div>
+                             {% endfor %}
+                         {% endfor %}
+                        <form action="{% url 'comingsoon:signup' %}" method="post">
                             {% csrf_token %}
+                            {{ form.errors }}
+                             <div class="form-group">
+                            
+                                <input type="text" name="name" placeholder="Firstname" {% if form.name.value %} value="{{ form.name.value }}" {% endif %}>
+                            </div>
                             <div class="form-group">
-                                <input type="email" placeholder="Enter your email">
+
+                                <input type="email" name="email" placeholder="Enter your email" {% if form.email.value %} value="{{ form.email.value }}" {% endif %}>
                                 <button type="submit">Notify Me</button>
                             </div>
                         </form>
+                           {% endif %}
                     </div>
                 </div>
             </div>
